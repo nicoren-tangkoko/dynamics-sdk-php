@@ -1,19 +1,20 @@
-<?php 
+<?php
+
 /**
-* Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
-* Licensed under the MIT License.  See License in the project root 
-* for license information.
-* 
-* DynamicsCollectionRequest File
-* PHP version 7
-*
-* @category  Library
-* @package   Microsoft.Dynamics
-* @copyright 2017 Saint Systems, LLC
-* @license   https://opensource.org/licenses/MIT MIT License
-* @version   GIT: 0.1.0
-* @link      https://www.microsoft.com/en-us/dynamics365/
-*/
+ * Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
+ * Licensed under the MIT License.  See License in the project root 
+ * for license information.
+ * 
+ * DynamicsCollectionRequest File
+ * PHP version 7
+ *
+ * @category  Library
+ * @package   Microsoft.Dynamics
+ * @copyright 2017 Saint Systems, LLC
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   GIT: 0.1.0
+ * @link      https://www.microsoft.com/en-us/dynamics365/
+ */
 
 namespace Microsoft\Dynamics\Http;
 
@@ -31,75 +32,75 @@ use Microsoft\Dynamics\Exception\DynamicsException;
 class DynamicsCollectionRequest extends DynamicsRequest
 {
     /**
-    * The size of page to divide the collection into
-    *
-    * @var int
-    */
+     * The size of page to divide the collection into
+     *
+     * @var int
+     */
     protected $pageSize;
 
     /**
-    * The skip token to use in calling a new page of results
-    *
-    * @var string
-    */
+     * The skip token to use in calling a new page of results
+     *
+     * @var string
+     */
     protected $skipToken;
 
     /**
-    * True if the user has reached the end of the collection
-    *
-    * @var bool
-    */
+     * True if the user has reached the end of the collection
+     *
+     * @var bool
+     */
     protected $end;
 
     /**
-    * The endpoint that the user called (with query parameters)
-    *
-    * @var string
-    */
+     * The endpoint that the user called (with query parameters)
+     *
+     * @var string
+     */
     protected $originalEndpoint;
-    
+
     /**
-    * The return type that the user specified
-    *
-    * @var string
-    */
+     * The return type that the user specified
+     *
+     * @var string
+     */
     protected $originalReturnType;
 
     /**
-    * Constructs a new DynamicsCollectionRequest object
-    *
-    * @param string $requestType The HTTP verb for the 
-    *                            request ("GET", "POST", "PUT", etc.)
-    * @param string $endpoint    The URI of the endpoint to hit
-    * @param string $accessToken A valid access token
-    * @param string $instanceUrl     The base URL of the request
-    * @param string $apiVersion  The version of the API to call
-    */
+     * Constructs a new DynamicsCollectionRequest object
+     *
+     * @param string $requestType The HTTP verb for the 
+     *                            request ("GET", "POST", "PUT", etc.)
+     * @param string $endpoint    The URI of the endpoint to hit
+     * @param string $accessToken A valid access token
+     * @param string $instanceUrl     The base URL of the request
+     * @param string $apiVersion  The version of the API to call
+     */
     public function __construct($requestType, $endpoint, $accessToken, $instanceUrl, $apiVersion)
     {
         parent::__construct(
-            $requestType, 
-            $endpoint, 
-            $accessToken, 
-            $instanceUrl, 
+            $requestType,
+            $endpoint,
+            $accessToken,
+            $instanceUrl,
             $apiVersion
         );
         $this->end = false;
     }
 
     /**
-    * Gets the number of entries in the collection
-    *
-    * @return int the number of entries
-    */
+     * Gets the number of entries in the collection
+     *
+     * @return int the number of entries
+     */
     public function count()
     {
         $query = '$count=true';
         $request = new DynamicsRequest(
-            $this->requestType, 
-            $this->endpoint . $this->getConcatenator() . $query, 
-            $this->accessToken, 
-            $this->instanceUrl, 
+            $this->requestType,
+            $this->endpoint . $this->getConcatenator() . $query,
+            $this->accessToken,
+            $this->instanceUrl,
             $this->apiVersion
         );
         $result = $request->execute()->getBody();
@@ -115,15 +116,15 @@ class DynamicsCollectionRequest extends DynamicsRequest
     }
 
     /**
-    * Sets the number of results to return with each call
-    * to "getPage()"
-    *
-    * @param int $pageSize The page size
-    *
+     * Sets the number of results to return with each call
+     * to "getPage()"
+     *
+     * @param int $pageSize The page size
+     *
      * @throws DynamicsException if the requested page size exceeds
      *         the Dynamics's defined page size limit
-    * @return DynamicsCollectionRequest object
-    */
+     * @return DynamicsCollectionRequest object
+     */
     public function setPageSize($pageSize)
     {
         if ($pageSize > Constants::MAX_PAGE_SIZE) {
@@ -134,12 +135,12 @@ class DynamicsCollectionRequest extends DynamicsRequest
     }
 
     /**
-    * Gets the next page of results
-    *
-    * @param bool $prev When true, get the previous page
-    *
-    * @return array of objects of class $returnType
-    */
+     * Gets the next page of results
+     *
+     * @param bool $prev When true, get the previous page
+     *
+     * @return array of objects of class $returnType
+     */
     public function getPage($prev = false)
     {
         $this->setPageCallInfo($prev);
@@ -149,14 +150,15 @@ class DynamicsCollectionRequest extends DynamicsRequest
     }
 
     /**
-    * Sets the required query information to get a new page
-    * 
-    * @param bool $prev Set to true for the previous page
-    *
-    * @return DynamicsCollectionRequest
-    */
-    public function setPageCallInfo($prev) 
+     * Sets the required query information to get a new page
+     * 
+     * @param bool $prev Set to true for the previous page
+     *
+     * @return DynamicsCollectionRequest
+     */
+    public function setPageCallInfo($prev)
     {
+
         // Store these to add temporary query data to request
         $this->originalReturnType = $this->returnType;
         $this->originalEndpoint = $this->endpoint;
@@ -169,33 +171,48 @@ class DynamicsCollectionRequest extends DynamicsRequest
             trigger_error('Reached end of collection');
             return null;
         }
-
+        $query = [];
         // Build the page navigation query string
-        $query = '$top=' . $this->pageSize;
+        if ($this->pageSize) {
+            $query['$top'] = $this->pageSize;
+        }
+
         if ($this->skipToken) {
-            $query .='&$skiptoken=' . $this->skipToken;
+            $query['$skiptoken'] = $this->skipToken;
         }
         if ($prev) {
-            $query .='&previous-page=true';
+            $query['previous-page'] = 'true';
         }
-
-        $this->endpoint = $this->endpoint . $this->getConcatenator() . $query;
+        if (!$this->skipToken) {
+            $this->endpoint = $this->instanceApiUrl . $this->apiVersion . $this->endpoint . $this->getConcatenator() . implode("&", $query);
+        } else {
+            $this->endpoint = $this->skipToken;
+        }
         return $this;
     }
 
     /**
-    * Clean up after making a page call request
-    *
-    * @param DynamicsResponse $response The DynamicsResponse returned
-    *        after making a page call
-    *
-    * @return mixed result of the call, formatted according
-    *         to the returnType set by the user
-    */
+     * Get the concatenated request URL
+     *
+     * @return string request URL
+     */
+    protected function getRequestUrl()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * Clean up after making a page call request
+     *
+     * @param DynamicsResponse $response The DynamicsResponse returned
+     *        after making a page call
+     *
+     * @return mixed result of the call, formatted according
+     *         to the returnType set by the user
+     */
     public function processPageCallReturn($response)
     {
         $this->skipToken = $response->getSkipToken();
-
         /* If no skip token is returned, we have reached the end
            of the collection */
         if (!$this->skipToken) {
@@ -217,10 +234,10 @@ class DynamicsCollectionRequest extends DynamicsRequest
     }
 
     /**
-    * Gets the previous page of results from the collection
-    *
-    * @return array of objects of class $returnType
-    */
+     * Gets the previous page of results from the collection
+     *
+     * @return array of objects of class $returnType
+     */
     public function getPrevPage()
     {
         $this->end = false;
@@ -228,10 +245,10 @@ class DynamicsCollectionRequest extends DynamicsRequest
     }
 
     /**
-    * Gets whether the user has reached the end of the collection
-    *
-    * @return bool The end
-    */
+     * Gets whether the user has reached the end of the collection
+     *
+     * @return bool The end
+     */
     public function isEnd()
     {
         return $this->end;

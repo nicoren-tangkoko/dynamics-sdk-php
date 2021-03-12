@@ -1,19 +1,20 @@
-<?php 
+<?php
+
 /**
-* Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
-* Licensed under the MIT License.  See License in the project root 
-* for license information.
-* 
-* DynamicsRequest File
-* PHP version 7
-*
-* @category  Library
-* @package   Microsoft.Dynamics
-* @copyright 2017 Saint Systems, LLC
-* @license   https://opensource.org/licenses/MIT MIT License
-* @version   GIT: 0.1.0
-* @link      https://www.microsoft.com/en-us/dynamics365/
-*/
+ * Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
+ * Licensed under the MIT License.  See License in the project root 
+ * for license information.
+ * 
+ * DynamicsRequest File
+ * PHP version 7
+ *
+ * @category  Library
+ * @package   Microsoft.Dynamics
+ * @copyright 2017 Saint Systems, LLC
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   GIT: 0.1.0
+ * @link      https://www.microsoft.com/en-us/dynamics365/
+ */
 
 namespace Microsoft\Dynamics\Http;
 
@@ -32,94 +33,94 @@ use Microsoft\Dynamics\Exception\DynamicsException;
 class DynamicsRequest
 {
     /**
-    * A valid access token
-    *
-    * @var string
-    */
+     * A valid access token
+     *
+     * @var string
+     */
     protected $accessToken;
 
     /**
-    * The API version to use ("v1.0", "beta")
-    *
-    * @var string
-    */
+     * The API version to use ("v1.0", "beta")
+     *
+     * @var string
+     */
     protected $apiVersion;
 
     /**
-    * The instance api url to call
-    *
-    * @var string
-    */
+     * The instance api url to call
+     *
+     * @var string
+     */
     protected $instanceApiUrl;
 
     /**
-    * The endpoint to call
-    *
-    * @var string
-    */
+     * The endpoint to call
+     *
+     * @var string
+     */
     protected $endpoint;
 
     /**
-    * The Guzzle client used to make the HTTP request
-    *
-    * @var Client
-    */
+     * The Guzzle client used to make the HTTP request
+     *
+     * @var Client
+     */
     protected $guzzleClient;
 
     /**
-    * An array of headers to send with the request
-    *
-    * @var array(string => string)
-    */
+     * An array of headers to send with the request
+     *
+     * @var array(string => string)
+     */
     protected $headers;
 
     /**
-    * The body of the request (optional)
-    *
-    * @var string
-    */
+     * The body of the request (optional)
+     *
+     * @var string
+     */
     protected $requestBody;
 
     /**
-    * The type of request to make ("GET", "POST", etc.)
-    *
-    * @var object
-    */
+     * The type of request to make ("GET", "POST", etc.)
+     *
+     * @var object
+     */
     protected $requestType;
 
     /**
-    * True if the response should be returned as
-    * a stream
-    *
-    * @var bool
-    */
+     * True if the response should be returned as
+     * a stream
+     *
+     * @var bool
+     */
     protected $returnsStream;
 
     /**
-    * The return type to cast the response as
-    *
-    * @var object
-    */
+     * The return type to cast the response as
+     *
+     * @var object
+     */
     protected $returnType;
 
     /**
-    * The timeout, in seconds
-    *
-    * @var string
-    */
+     * The timeout, in seconds
+     *
+     * @var string
+     */
     protected $timeout;
 
     /**
-    * Constructs a new Dynamics Request object
-    *
-    * @param string $requestType    The HTTP method to use, e.g. "GET" or "POST"
-    * @param string $endpoint       The Dynamics endpoint to call
-    * @param string $accessToken    A valid access token to validate the Dynamics call
-    * @param string $instanceApiUrl The instance URL to call
-    * @param string $apiVersion     The API version to use
+     * Constructs a new Dynamics Request object
+     *
+     * @param string $requestType    The HTTP method to use, e.g. "GET" or "POST"
+     * @param string $endpoint       The Dynamics endpoint to call
+     * @param string $accessToken    A valid access token to validate the Dynamics call
+     * @param string $instanceApiUrl The instance URL to call
+     * @param string $apiVersion     The API version to use
      *
      * @throws DynamicsException when no access token is provided
-    */ 
+     */
     public function __construct($requestType, $endpoint, $accessToken, $instanceApiUrl, $apiVersion)
     {
         $this->requestType = $requestType;
@@ -141,12 +142,12 @@ class DynamicsRequest
     }
 
     /**
-    * Sets the return type of the response object
-    *
-    * @param mixed $returnClass The object class to use
-    *
-    * @return DynamicsRequest object
-    */
+     * Sets the return type of the response object
+     *
+     * @param mixed $returnClass The object class to use
+     *
+     * @return DynamicsRequest object
+     */
     public function setReturnType($returnClass)
     {
         $this->returnType = $returnClass;
@@ -159,12 +160,12 @@ class DynamicsRequest
     }
 
     /**
-    * Adds custom headers to the request
-    *
-    * @param array $headers An array of custom headers
-    *
-    * @return DynamicsRequest object
-    */
+     * Adds custom headers to the request
+     *
+     * @param array $headers An array of custom headers
+     *
+     * @return DynamicsRequest object
+     */
     public function addHeaders($headers)
     {
         $this->headers = array_merge($this->headers, $headers);
@@ -172,38 +173,38 @@ class DynamicsRequest
     }
 
     /**
-    * Get the request headers
-    *
-    * @return array of headers
-    */
+     * Get the request headers
+     *
+     * @return array of headers
+     */
     public function getHeaders()
     {
         return $this->headers;
     }
 
     /**
-    * Attach a body to the request. Will JSON encode 
-    * any Microsoft\Dynamics\Model objects as well as arrays
-    *
-    * @param mixed $obj The object to include in the request
-    *
-    * @return DynamicsRequest object
-    */
+     * Attach a body to the request. Will JSON encode 
+     * any Microsoft\Dynamics\Model objects as well as arrays
+     *
+     * @param mixed $obj The object to include in the request
+     *
+     * @return DynamicsRequest object
+     */
     public function attachBody($obj)
     {
         // Attach streams & JSON automatically
         if (is_string($obj) || is_a($obj, 'GuzzleHttp\\Psr7\\Stream')) {
             $this->requestBody = $obj;
-        } 
+        }
         // JSON-encode the model object's property dictionary
         else if (method_exists($obj, 'getProperties')) {
             $class = get_class($obj);
             $class = explode("\\", $class);
             $model = strtolower(end($class));
-            
+
             $body = $this->flattenDictionary($obj->getProperties());
             $this->requestBody = "{" . $model . ":" . json_encode($body) . "}";
-        } 
+        }
         // By default, JSON-encode (i.e. arrays)
         else {
             $this->requestBody = json_encode($obj);
@@ -212,22 +213,22 @@ class DynamicsRequest
     }
 
     /**
-    * Get the body of the request
-    *
-    * @return mixed request body of any type
-    */
+     * Get the body of the request
+     *
+     * @return mixed request body of any type
+     */
     public function getBody()
     {
         return $this->requestBody;
     }
 
     /**
-    * Sets the timeout limit of the cURL request
-    *
-    * @param string $timeout The timeout in ms
-    * 
-    * @return DynamicsRequest object
-    */
+     * Sets the timeout limit of the cURL request
+     *
+     * @param string $timeout The timeout in ms
+     * 
+     * @return DynamicsRequest object
+     */
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
@@ -235,15 +236,15 @@ class DynamicsRequest
     }
 
     /**
-    * Executes the HTTP request using Guzzle
-    *
-    * @param mixed $client The client to use in the request
-    *
+     * Executes the HTTP request using Guzzle
+     *
+     * @param mixed $client The client to use in the request
+     *
      * @throws DynamicsException if response is invalid
      *
-    * @return mixed object or array of objects
-    *         of class $returnType
-    */
+     * @return mixed object or array of objects
+     *         of class $returnType
+     */
     public function execute($client = null)
     {
         if (is_null($client)) {
@@ -251,8 +252,8 @@ class DynamicsRequest
         }
 
         $result = $client->request(
-            $this->requestType, 
-            $this->getRequestUrl(), 
+            $this->requestType,
+            $this->getRequestUrl(),
             [
                 'body' => $this->requestBody,
                 'stream' =>  $this->returnsStream,
@@ -268,9 +269,9 @@ class DynamicsRequest
         // Wrap response in DynamicsResponse layer
         try {
             $response = new DynamicsResponse(
-                $this, 
-                $result->getBody()->getContents(), 
-                $result->getStatusCode(), 
+                $this,
+                $result->getBody()->getContents(),
+                $result->getStatusCode(),
                 $result->getHeaders()
             );
         } catch (DynamicsException $e) {
@@ -283,17 +284,17 @@ class DynamicsRequest
         if ($this->returnType) {
             $returnObj = $response->getResponseAsObject($this->returnType);
         }
-        return $returnObj; 
+        return $returnObj;
     }
 
     /**
-    * Executes the HTTP request asynchronously using Guzzle
-    *
-    * @param mixed $client The client to use in the request
-    *
-    * @return mixed object or array of objects
-    *         of class $returnType
-    */
+     * Executes the HTTP request asynchronously using Guzzle
+     *
+     * @param mixed $client The client to use in the request
+     *
+     * @return mixed object or array of objects
+     *         of class $returnType
+     */
     public function executeAsync($client = null)
     {
         if (is_null($client)) {
@@ -312,9 +313,9 @@ class DynamicsRequest
             // On success, return the result/response
             function ($result) {
                 $response = new DynamicsResponse(
-                    $this, 
-                    $result->getBody()->getContents(), 
-                    $result->getStatusCode(), 
+                    $this,
+                    $result->getBody()->getContents(),
+                    $result->getStatusCode(),
                     $result->getHeaders()
                 );
                 $returnObject = $response;
@@ -335,15 +336,15 @@ class DynamicsRequest
     }
 
     /**
-    * Download a file from OneDrive to a given location
-    *
-    * @param string $path   The path to download the file to
-    * @param mixed  $client The client to use in the request
-    *
+     * Download a file from OneDrive to a given location
+     *
+     * @param string $path   The path to download the file to
+     * @param mixed  $client The client to use in the request
+     *
      * @throws DynamicsException if file path is invalid
      *
-    * @return null
-    */
+     * @return null
+     */
     public function download($path, $client = null)
     {
         if (is_null($client)) {
@@ -353,30 +354,30 @@ class DynamicsRequest
             $file = fopen($path, 'w');
 
             $client->request(
-                $this->requestType, 
-                $this->getRequestUrl(), 
+                $this->requestType,
+                $this->getRequestUrl(),
                 [
                     'body' => $this->requestBody,
                     'sink' => $file
                 ]
             );
             fclose($file);
-        } catch(DynamicsException $e) {
+        } catch (DynamicsException $e) {
             throw new DynamicsException(Constants::INVALID_FILE);
         }
         return null;
     }
 
     /**
-    * Upload a file to OneDrive from a given location
-    *
-    * @param string $path   The path of the file to upload
-    * @param mixed  $client The client to use in the request
-    *
+     * Upload a file to OneDrive from a given location
+     *
+     * @param string $path   The path of the file to upload
+     * @param mixed  $client The client to use in the request
+     *
      * @throws DynamicsException if file is invalid
      *
-    * @return mixed DriveItem or array of DriveItems
-    */
+     * @return mixed DriveItem or array of DriveItems
+     */
     public function upload($path, $client = null)
     {
         if (is_null($client)) {
@@ -387,16 +388,16 @@ class DynamicsRequest
             $stream = \GuzzleHttp\Psr7\stream_for($file);
             $this->requestBody = $stream;
             return $this->execute($client);
-        } catch(DynamicsException $e) {
+        } catch (DynamicsException $e) {
             throw new DynamicsException(Constants::INVALID_FILE);
         }
     }
 
     /**
-    * Get a list of headers for the request
-    *
-    * @return array The headers for the request
-    */
+     * Get a list of headers for the request
+     *
+     * @return array The headers for the request
+     */
     private function _getDefaultHeaders()
     {
         $headers = [
@@ -412,22 +413,22 @@ class DynamicsRequest
     }
 
     /**
-    * Get the concatenated request URL
-    *
-    * @return string request URL
-    */
-    private function getRequestUrl()
+     * Get the concatenated request URL
+     *
+     * @return string request URL
+     */
+    protected function getRequestUrl()
     {
         return $this->apiVersion . $this->endpoint;
     }
 
     /**
-    * Checks whether the endpoint currently contains query
-    * parameters and returns the relevant concatenator for 
-    * the new query string
-    *
-    * @return string "?" or "&"
-    */
+     * Checks whether the endpoint currently contains query
+     * parameters and returns the relevant concatenator for 
+     * the new query string
+     *
+     * @return string "?" or "&"
+     */
     protected function getConcatenator()
     {
         if (stripos($this->endpoint, "?") === false) {
@@ -437,14 +438,14 @@ class DynamicsRequest
     }
 
     /**
-    * Create a new Guzzle client
-    * To allow for user flexibility, the 
-    * client is not reused. This allows the user
-    * to set and change headers on a per-request
-    * basis
-    *
-    * @return \GuzzleHttp\Client The new client
-    */
+     * Create a new Guzzle client
+     * To allow for user flexibility, the 
+     * client is not reused. This allows the user
+     * to set and change headers on a per-request
+     * basis
+     *
+     * @return \GuzzleHttp\Client The new client
+     */
     protected function createGuzzleClient()
     {
         $client = new Client(
@@ -457,14 +458,15 @@ class DynamicsRequest
     }
 
     /**
-    * Flattens the property dictionaries into 
-    * JSON-friendly arrays
-    *
-    * @param mixed $obj the object to flatten
-    *
-    * @return array flattened object
-    */
-    protected function flattenDictionary($obj) {
+     * Flattens the property dictionaries into 
+     * JSON-friendly arrays
+     *
+     * @param mixed $obj the object to flatten
+     *
+     * @return array flattened object
+     */
+    protected function flattenDictionary($obj)
+    {
         foreach ($obj as $arrayKey => $arrayValue) {
             if (method_exists($arrayValue, 'getProperties')) {
                 $data = $arrayValue->getProperties();

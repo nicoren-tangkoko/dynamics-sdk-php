@@ -1,19 +1,20 @@
-<?php 
+<?php
+
 /**
-* Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
-* Licensed under the MIT License.  See License in the project root 
-* for license information.
-* 
-* Constants File
-* PHP version 7
-*
-* @category  Library
-* @package   Microsoft.Dynamics
-* @copyright 2017 Saint Systems, LLC
-* @license   https://opensource.org/licenses/MIT MIT License
-* @version   GIT: 0.1.0
-* @link      https://www.microsoft.com/en-us/dynamics365/
-*/
+ * Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
+ * Licensed under the MIT License.  See License in the project root 
+ * for license information.
+ * 
+ * Constants File
+ * PHP version 7
+ *
+ * @category  Library
+ * @package   Microsoft.Dynamics
+ * @copyright 2017 Saint Systems, LLC
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   GIT: 0.1.0
+ * @link      https://www.microsoft.com/en-us/dynamics365/
+ */
 
 namespace Microsoft\Dynamics;
 
@@ -32,7 +33,7 @@ class Constants
 
     // Default ODATA Paging
     const PREFER_HEADER = "Prefer";
-    const ODATA_MAX_PAGE_SIZE_DEFAULT = "odata.maxpagesize=25";
+    const ODATA_MAX_PAGE_SIZE_DEFAULT = "odata.maxpagesize=100";
 
     // Dynamics Online 2016 Update 1 or later (Dynamics 365)
     const MIN_API_VERSION = "v8.0";
