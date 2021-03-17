@@ -1,19 +1,20 @@
-<?php 
+<?php
+
 /**
-* Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
-* Licensed under the MIT License.  See License in the project root 
-* for license information.
-* 
-* Dynamics File
-* PHP version 7
-*
-* @category  Library
-* @package   Microsoft.Dynamics
-* @copyright 2017 Saint Systems, LLC
-* @license   https://opensource.org/licenses/MIT MIT License
-* @version   GIT: 0.1.0
-* @link      https://www.microsoft.com/en-us/dynamics365/
-*/
+ * Copyright (c) Saint Systems, LLC.  All Rights Reserved.  
+ * Licensed under the MIT License.  See License in the project root 
+ * for license information.
+ * 
+ * Dynamics File
+ * PHP version 7
+ *
+ * @category  Library
+ * @package   Microsoft.Dynamics
+ * @copyright 2017 Saint Systems, LLC
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   GIT: 0.1.0
+ * @link      https://www.microsoft.com/en-us/dynamics365/
+ */
 
 namespace Microsoft\Dynamics;
 
@@ -34,7 +35,7 @@ use Microsoft\Dynamics\Exception\DynamicsException;
  * @license  https://opensource.org/licenses/MIT MIT License
  * @link     https://www.microsoft.com/en-us/dynamics365/
  */
-class DynamicsClient extends BaseClient// implements IDynamicsClient
+class DynamicsClient extends BaseClient // implements IDynamicsClient
 {
     /**
      * Constructs a new BaseClient.
@@ -42,10 +43,11 @@ class DynamicsClient extends BaseClient// implements IDynamicsClient
      * @param IAuthenticationProvider $authenticationProvider The IAuthenticationProvider for authenticating request messages.
      * @param IHttpProvider|null      $httpProvider           The IHttpProvider for sending requests.
      */
-    public function __construct($baseUrl, 
-                                Closure $authenticationProvider = null, 
-                                IHttpProvider $httpProvider = null)
-    {
+    public function __construct(
+        $baseUrl,
+        Closure $authenticationProvider = null,
+        IHttpProvider $httpProvider = null
+    ) {
         parent::__construct($baseUrl, $authenticationProvider, $httpProvider);
     }
 
@@ -58,7 +60,7 @@ class DynamicsClient extends BaseClient// implements IDynamicsClient
      */
     public function __call($method, $parameters)
     {
-        return class_exists('Microsoft\Dynamics\Model\\'.$method);
+        return class_exists('Microsoft\Dynamics\Model\\' . $method);
         // $entityType = 'Microsoft\Dynamics\Model\\'.$method;
         // $entity = new $entityType();
         // $entity->setConnection($this);
@@ -74,12 +76,10 @@ class DynamicsClient extends BaseClient// implements IDynamicsClient
      */
     public function __get($key)
     {
-        if (class_exists('Microsoft\\Dynamics\\Model\\'.$key))
-        {
-            $entityName = 'Microsoft\\Dynamics\\Model\\'.$key;
+        if (class_exists('Microsoft\\Dynamics\\Model\\' . $key)) {
+            $entityName = 'Microsoft\\Dynamics\\Model\\' . $key;
             $entitySetName = $entityName::$entity;
-            return new EntityRequestBuilder($this->getBaseUrl().'/'.$entitySetName, $this, $entityName);
+            return new EntityRequestBuilder($this->getBaseUrl() . '/' . $entitySetName, $this, $entityName);
         }
     }
-
 }

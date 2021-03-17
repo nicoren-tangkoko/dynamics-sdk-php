@@ -39,7 +39,7 @@ class KnowledgeArticle extends Entity
      *
      * @var string
      */
-    static $entity = 'knowledgearticles';
+    protected ?string $entity = 'knowledgearticles';
 
     /**
      * The name of the attribute that is the primary id for the entity.
@@ -47,5 +47,5 @@ class KnowledgeArticle extends Entity
      *
      * @var string
      */
-    static $primaryKey = 'knowledgearticleid';
+    protected ?string $primaryKey = 'knowledgearticleid';
 }

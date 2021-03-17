@@ -18,6 +18,8 @@
 
 namespace Microsoft\Dynamics\Http;
 
+use Microsoft\Dynamics\Model\CustomObject;
+
 /**
  * Class DynamicsResponse
  *
@@ -144,7 +146,14 @@ class DynamicsResponse
         if (array_key_exists('value', $result)) {
             $objArray = array();
             foreach ($result['value'] as $obj) {
-                $objArray[] = new $class($obj);
+                if ($class == CustomObject::class) {
+                    $matches  = preg_grep('/^isa_(\w+)id/i', array_keys($obj));
+                    $primaryKey = reset($matches);
+                    $entity = substr($primaryKey, 0, -2);
+                    $objArray[] = new $class($entity, $primaryKey, $obj);
+                } else {
+                    $objArray[] = new $class($obj);
+                }
             }
             return $objArray;
         } else {

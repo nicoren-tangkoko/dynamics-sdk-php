@@ -17,13 +17,12 @@ class ModelTest extends TestCase
         $this->complexTypes = array();
 
         $dir = new DirectoryIterator('src/Dynamics/Model');
-        foreach ($dir as $fileInfo)
-        {
+        foreach ($dir as $fileInfo) {
             $filename = $fileInfo->getFileName();
             $classname = explode(".", $filename)[0];
             if ($classname != null) {
                 $class = "Microsoft\\Dynamics\\Model\\" . explode(".", $fileInfo->getFileName())[0];
-                switch(get_parent_class($class)) {
+                switch (get_parent_class($class)) {
                     case OData\Entity::class:
                         $this->entities[] = $class;
                         break;
@@ -56,7 +55,7 @@ class ModelTest extends TestCase
     {
         foreach ($this->entities as $entityClass) {
             $entity = new $entityClass();
-            $primaryKey = $entity::$primaryKey;
+            $primaryKey = $entity->getKeyName();
             $expected = $entity->getKeyName();
             $this->assertEquals($expected, $primaryKey);
         }

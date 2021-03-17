@@ -3,7 +3,7 @@
 /**
  * Copyright (c) Saint Systems, LLC.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
  * 
- * SemiAnnualFiscalCalendar File
+ * LanguageLocale File
  * PHP version 7
  *
  * @category  Library
@@ -19,30 +19,29 @@ namespace Microsoft\Dynamics\Model;
 use SaintSystems\OData\Entity;
 
 /**
- * SemiAnnualFiscalCalendar class
+ * LanguageLocale class
  *
- * SemiAnnualFiscalCalendar entity
+ * LanguageLocale entity
  *
  * @category  Model
  * @package   Microsoft.Dynamics
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://www.microsoft.com/en-us/dynamics365/
  */
-class SemiAnnualFiscalCalendar extends Entity
+class CustomObject extends Entity
 {
-    /**
-     * The entity set name associated with the entity.
-     * This is needed for API calls since this is the API endpoint for this Entity
-     *
-     * @var string
-     */
-    protected ?string $entity = 'semiannualfiscalcalendars';
+
 
     /**
-     * The name of the attribute that is the primary id for the entity.
-     * PrimaryIdAttribute from https://msdn.microsoft.com/en-us/library/mt607760.aspx
      *
-     * @var string
+     * @param string $entity
+     * @param string $primaryKey
+     * @param array $properties
      */
-    protected ?string $primaryKey = 'userfiscalcalendarid';
+    public function __construct(string $entity, string $primaryKey, $properties = array())
+    {
+        $this->entity = $entity;
+        $this->$primaryKey = $primaryKey;
+        parent::__construct($properties);
+    }
 }

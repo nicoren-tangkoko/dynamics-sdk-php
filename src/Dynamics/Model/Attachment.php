@@ -1,40 +1,42 @@
 <?php
+
 /**
-* Copyright (c) Saint Systems, LLC.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
-* 
-* Attachment File
-* PHP version 7
-*
-* @category  Library
-* @package   Microsoft.Dynamics
-* @copyright 2017 Saint Systems, LLC
-* @license   https://opensource.org/licenses/MIT MIT License
-* @version   GIT: 0.1.0
-* @link      https://www.microsoft.com/en-us/dynamics365/
-*/
+ * Copyright (c) Saint Systems, LLC.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+ * 
+ * Attachment File
+ * PHP version 7
+ *
+ * @category  Library
+ * @package   Microsoft.Dynamics
+ * @copyright 2017 Saint Systems, LLC
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   GIT: 0.1.0
+ * @link      https://www.microsoft.com/en-us/dynamics365/
+ */
+
 namespace Microsoft\Dynamics\Model;
 
 use SaintSystems\OData\Entity;
 
 /**
-* Attachment class
-*
-* Attachment entity
-*
-* @category  Model
-* @package   Microsoft.Dynamics
-* @license   https://opensource.org/licenses/MIT MIT License
-* @link      https://www.microsoft.com/en-us/dynamics365/
-*/
+ * Attachment class
+ *
+ * Attachment entity
+ *
+ * @category  Model
+ * @package   Microsoft.Dynamics
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://www.microsoft.com/en-us/dynamics365/
+ */
 class Attachment extends Entity
 {
-     /**
+    /**
      * The entity set name associated with the entity.
      * This is needed for API calls since this is the API endpoint for this Entity
      *
      * @var string
      */
-    static $entity = 'attachments';
+    protected ?string $entity = 'attachments';
 
     /**
      * The name of the attribute that is the primary id for the entity.
@@ -42,5 +44,5 @@ class Attachment extends Entity
      *
      * @var string
      */
-    static $primaryKey = 'attachmentid';
+    protected ?string $primaryKey = 'attachmentid';
 }

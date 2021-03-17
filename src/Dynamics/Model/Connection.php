@@ -44,7 +44,7 @@ class Connection extends Entity
      *
      * @var string
      */
-    static $entity = 'connections';
+    protected ?string $entity = 'connections';
 
     /**
      * The name of the attribute that is the primary id for the entity.
@@ -52,5 +52,5 @@ class Connection extends Entity
      *
      * @var string
      */
-    static $primaryKey = 'connectionid';
+    protected ?string $primaryKey = 'connectionid';
 }

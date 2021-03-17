@@ -39,7 +39,7 @@ class Constants
     const MIN_API_VERSION = "v8.0";
 
     // These can be overwritten in setters in the Dynamics object
-    const API_VERSION = "v8.2";
+    const API_VERSION = "v9.1";
 
     // Dynamics Web API base endpoint format
     const WEB_API_INSTANCE_ENDPOINT_FORMAT = "{scheme}://{instance_url}/api/data/";
