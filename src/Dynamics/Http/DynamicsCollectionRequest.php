@@ -184,7 +184,7 @@ class DynamicsCollectionRequest extends DynamicsRequest
             $query['previous-page'] = 'true';
         }
         if (!$this->skipToken) {
-            $this->endpoint = $this->instanceApiUrl . $this->apiVersion . $this->endpoint . $this->getConcatenator() . implode("&", $query);
+            $this->endpoint = $this->instanceApiUrl . $this->apiVersion . $this->endpoint . (count($query) > 0 ? $this->getConcatenator() . implode("&", $query) : "");
         } else {
             $this->endpoint = $this->skipToken;
         }
