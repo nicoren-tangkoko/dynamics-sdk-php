@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Microsoft\Dynamics\Http\DynamicsCollectionRequest;
 use Microsoft\Dynamics\Model;
@@ -9,7 +10,7 @@ class DynamicsCollectionRequestTest extends TestCase
     private $client;
     private $reflectedRequestUrlHandler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->collectionRequest = new DynamicsCollectionRequest("GET", "/endpoint", "token", "url", "version");
         $this->collectionRequest->setReturnType(Model\Lead::class);

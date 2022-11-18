@@ -15,7 +15,7 @@ class BuilderTest extends TestCase
     protected $baseUrl;
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->log = Log::get_instance();
         $this->baseUrl = 'http://services.odata.org/V4/TripPinService';
@@ -25,7 +25,9 @@ class BuilderTest extends TestCase
     public function getBuilder()
     {
         return new Builder(
-            $this->client, $this->client->getQueryGrammar(), $this->client->getPostProcessor()
+            $this->client,
+            $this->client->getQueryGrammar(),
+            $this->client->getPostProcessor()
         );
     }
 
@@ -46,7 +48,7 @@ class BuilderTest extends TestCase
 
         $expected = $entitySet;
         $actual = $this->readAttribute($builder, 'entitySet');
-        
+
         $this->assertEquals($expected, $actual);
 
         $request = $builder->toRequest();
@@ -82,7 +84,7 @@ class BuilderTest extends TestCase
 
         $expectedUri = "('$entityId')";
         $actualUri = $builder->toRequest();
-        
+
         $this->assertEquals($expectedUri, $actualUri);
     }
 
@@ -101,7 +103,7 @@ class BuilderTest extends TestCase
 
         $expectedUri = "($entityId)";
         $actualUri = $builder->toRequest();
-        
+
         $this->assertEquals($expectedUri, $actualUri);
     }
 
@@ -120,7 +122,7 @@ class BuilderTest extends TestCase
 
         $expectedUri = "($entityId)";
         $actualUri = $builder->toRequest();
-        
+
         $this->assertEquals($expectedUri, $actualUri);
     }
 
@@ -139,7 +141,7 @@ class BuilderTest extends TestCase
 
         $expectedUri = "('$entityId')";
         $actualUri = $builder->toRequest();
-        
+
         $this->assertEquals($expectedUri, $actualUri);
     }
 
@@ -170,5 +172,4 @@ class BuilderTest extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
 }

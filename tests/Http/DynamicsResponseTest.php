@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Microsoft\Dynamics\Dynamics;
 use Microsoft\Dynamics\Http\DynamicsRequest;
@@ -12,7 +13,7 @@ class DynamicsResponseTest extends TestCase
     public $request;
     public $responseBody;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->responseBody = array('body' => 'content', 'firstname' => 'Bob');
         $body = json_encode($this->responseBody);
@@ -33,7 +34,6 @@ class DynamicsResponseTest extends TestCase
 
         $this->assertInstanceOf(Model\Lead::class, $response);
         $this->assertEquals($this->responseBody['firstname'], $response->firstname);
-
     }
 
     public function testGetSkipToken()

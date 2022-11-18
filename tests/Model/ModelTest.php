@@ -10,7 +10,7 @@ class ModelTest extends TestCase
     private $enums;
     private $complexTypes;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->entities = array();
         $this->enums = array();

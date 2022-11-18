@@ -12,7 +12,7 @@ class ODataClientTest extends TestCase
     protected $log;
     private $baseUrl;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->log = Log::get_instance();
         $this->baseUrl = 'http://services.odata.org/V4/TripPinService';

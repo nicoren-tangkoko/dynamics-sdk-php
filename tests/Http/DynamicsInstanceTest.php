@@ -8,12 +8,12 @@ use Microsoft\Dynamics\Http\DynamicsRequest;
 
 class DynamicsInstanceTest extends DynamicsTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-        if ( ! $this->canRun()) {
+        if (!$this->canRun()) {
             $this->markTestSkipped(
-              'Valid testConfig.json values must be present to test against a real Dynamics instance.'
+                'Valid testConfig.json values must be present to test against a real Dynamics instance.'
             );
         }
     }
@@ -22,11 +22,11 @@ class DynamicsInstanceTest extends DynamicsTestCase
     {
         $dynamics = new Dynamics();
         $dynamics->setInstanceUrl($this->instanceUrl)
-                 ->setAccessToken($this->accessToken);
+            ->setAccessToken($this->accessToken);
 
         $leads = $dynamics->createCollectionRequest('GET', '/leads')
-                      ->setReturnType(Model\Lead::class)
-                      ->execute();
+            ->setReturnType(Model\Lead::class)
+            ->execute();
 
         $this->assertTrue(is_array($leads));
 
@@ -35,38 +35,36 @@ class DynamicsInstanceTest extends DynamicsTestCase
             //$this->log->info(sprintf('%s %s (%s)', $lead->firstname, $lead->lastname, $lead->id));
             $this->assertInstanceOf(Microsoft\Dynamics\Model\Lead::class, $lead);
         }
-        
     }
 
     public function testDynamicsLeadRequest()
     {
         $dynamics = new Dynamics();
         $dynamics->setInstanceUrl($this->instanceUrl)
-                 ->setAccessToken($this->accessToken);
+            ->setAccessToken($this->accessToken);
 
         $leadId = 'c78ae94b-0983-e511-80e5-3863bb35ddb8';
 
         $lead = $dynamics->createRequest('GET', "/leads($leadId)")
-                      ->setReturnType(Model\Lead::class)
-                      ->execute();
+            ->setReturnType(Model\Lead::class)
+            ->execute();
 
         // $this->log->info(print_r($lead));
 
         $this->assertEquals($leadId, $lead->id);
-
     }
 
     public function testDynamicsLeadCollectionRequestFilterByEmail()
     {
         $dynamics = new Dynamics();
         $dynamics->setInstanceUrl($this->instanceUrl)
-                 ->setAccessToken($this->accessToken);
+            ->setAccessToken($this->accessToken);
 
         $leadId = 'c78ae94b-0983-e511-80e5-3863bb35ddb8';
 
         $leads = $dynamics->createCollectionRequest('GET', '/leads?$filter=emailaddress1 eq \'adam@anderly.com\'')
-                      ->setReturnType(Model\Lead::class)
-                      ->execute();
+            ->setReturnType(Model\Lead::class)
+            ->execute();
 
         $lead = $leads[0];
 
@@ -75,7 +73,6 @@ class DynamicsInstanceTest extends DynamicsTestCase
         $this->assertEquals($leadId, $lead->id);
         $this->assertEquals('Adam', $lead->firstname);
         $this->assertEquals('adam@anderly.com', $lead->emailaddress1);
-
     }
 
     public function testDynamicsIncidentCollectionRequest()
@@ -83,11 +80,11 @@ class DynamicsInstanceTest extends DynamicsTestCase
         $dynamics = new Dynamics();
 
         $dynamics->setInstanceUrl($this->instanceUrl)
-                 ->setAccessToken($this->accessToken);
+            ->setAccessToken($this->accessToken);
 
         $cases = $dynamics->createCollectionRequest('GET', '/incidents')
-                      ->setReturnType(Model\Incident::class)
-                      ->execute();
+            ->setReturnType(Model\Incident::class)
+            ->execute();
 
         $this->assertTrue(is_array($cases));
 
@@ -97,6 +94,5 @@ class DynamicsInstanceTest extends DynamicsTestCase
             //$this->log->info(print_r($case, true));
             $this->assertInstanceOf(Microsoft\Dynamics\Model\Incident::class, $case);
         }
-        
     }
 }

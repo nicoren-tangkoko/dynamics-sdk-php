@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Microsoft\Dynamics\Dynamics;
 use Microsoft\Dynamics\Http\DynamicsRequest;
@@ -14,7 +15,7 @@ class HttpTest extends TestCase
     public $getRequest;
     public $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $mock = new MockHandler([
             new Response(200, ['foo' => 'bar']),
@@ -132,7 +133,7 @@ class HttpTest extends TestCase
 
         $response = $request->execute($this->client);
         $this->assertInstanceOf(Microsoft\Dynamics\Http\DynamicsResponse::class, $response);
-        $this->assertEquals("{lead:".json_encode($lead->getProperties())."}", $this->container[0]['request']->getBody()->getContents());
+        $this->assertEquals("{lead:" . json_encode($lead->getProperties()) . "}", $this->container[0]['request']->getBody()->getContents());
     }
 
     public function testSendString()

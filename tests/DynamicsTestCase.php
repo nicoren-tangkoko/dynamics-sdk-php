@@ -8,7 +8,7 @@ use Microsoft\Dynamics\Core\Log;
 
 class DynamicsTestCase extends TestCase
 {
-	protected $log;
+    protected $log;
     protected $http;
     protected $accessToken;
     private $username;
@@ -19,7 +19,7 @@ class DynamicsTestCase extends TestCase
     const AUTHORIZE_ENDPOINT = '/oauth2/authorize';
     const TOKEN_ENDPOINT     = '/oauth2/token';
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->log = Log::get_instance();
         $this->http = new Client();
@@ -30,12 +30,12 @@ class DynamicsTestCase extends TestCase
     public function getTestConfig()
     {
         $configFileLocation = __DIR__ . '/testConfig.json';
-        if ( ! file_exists($configFileLocation)) {
+        if (!file_exists($configFileLocation)) {
             $configFileLocation = __DIR__ . '/testConfig.example.json';
         }
 
         $testConfigFile = file_get_contents($configFileLocation);
-        
+
         $testConfig = json_decode($testConfigFile, true);
 
         $this->clientId     = $testConfig['test_client_id_v1'];
@@ -47,7 +47,7 @@ class DynamicsTestCase extends TestCase
 
     public function getAccessToken()
     {
-        if ( ! $this->canRun()) return;
+        if (!$this->canRun()) return;
         // $tokenEndpoint = Constants::AUTHORITY_URL . '/oauth2/token';
         // $body = http_build_query(
         //     array(
@@ -62,7 +62,7 @@ class DynamicsTestCase extends TestCase
         //     'content-type' => 'application/x-www-form-urlencoded',
         //     'content-length' => strlen($body)
         //     );
-        
+
         // // Send a POST request to the token endpoint to retrieve tokens.
         // // Token endpoint is:
         // // https://login.microsoftonline.com/common/oauth2/token
@@ -74,9 +74,9 @@ class DynamicsTestCase extends TestCase
 
         // // Store the raw response in JSON format.
         // $jsonResponse = json_decode($response, true);
-        
+
         // $this->accessToken = $jsonResponse['access_token'];
-        
+
         $uri = self::AUTHORITY_URL . self::TOKEN_ENDPOINT;
 
         //$this->log->info($uri);
@@ -100,14 +100,14 @@ class DynamicsTestCase extends TestCase
 
         //$this->log->info($json);
 
-        $token = json_decode( $json, true );
+        $token = json_decode($json, true);
 
         $this->accessToken = $token['access_token'];
     }
 
     public function canRun()
     {
-        return (!empty($this->clientId) 
+        return (!empty($this->clientId)
             && !empty($this->clientSecret)
             && !empty($this->username)
             && !empty($this->password)

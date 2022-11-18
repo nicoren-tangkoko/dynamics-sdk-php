@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Microsoft\Dynamics\Constants;
 use Microsoft\Dynamics\Dynamics;
@@ -10,7 +11,7 @@ class DynamicsRequestTest extends TestCase
     protected $defaultHeaders;
     protected $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->requests = array(
             new DynamicsRequest("GET", "/endpoint", "token", "instanceUrl", "version"),
@@ -120,17 +121,17 @@ class DynamicsRequestTest extends TestCase
         $body = json_encode(array('body' => 'content'));
 
         $promise = $this->requests[0]
-                         ->executeAsync($this->client);
+            ->executeAsync($this->client);
         $this->assertInstanceOf(GuzzleHttp\Promise\PromiseInterface::class, $promise);
 
         $promise = $this->requests[1]
-                         ->executeAsync($this->client);
+            ->executeAsync($this->client);
         $this->assertInstanceOf(GuzzleHttp\Promise\PromiseInterface::class, $promise);
 
         $promise = $this->requests[0]
-                         ->executeAsync($this->client);
+            ->executeAsync($this->client);
         $promise2 = $this->requests[2]
-                          ->executeAsync($this->client);
+            ->executeAsync($this->client);
 
         $response = \GuzzleHttp\Promise\unwrap(array($promise));
         foreach ($response as $responseItem) {

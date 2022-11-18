@@ -11,7 +11,7 @@ use Microsoft\Dynamics\Tests\DynamicsTestCase;
 
 class DynamicsClientTest extends DynamicsTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->markTestSkipped();
@@ -19,7 +19,7 @@ class DynamicsClientTest extends DynamicsTestCase
 
     public function testDynamicsClientConstructor()
     {
-        $dynamicsClient = new DynamicsClient('https://contoso.crm.dynamics.com/', function($requestMessage) {
+        $dynamicsClient = new DynamicsClient('https://contoso.crm.dynamics.com/', function ($requestMessage) {
             $accessToken = 'abc';
             $requestMessage->headers['Authorization'] = 'Bearer ' . $accessToken;
         });
@@ -30,7 +30,7 @@ class DynamicsClientTest extends DynamicsTestCase
 
     public function testBaseRequest()
     {
-        $dynamicsClient = new DynamicsClient('https://contoso.crm.dynamics.com/', function($requestMessage) {
+        $dynamicsClient = new DynamicsClient('https://contoso.crm.dynamics.com/', function ($requestMessage) {
             $accessToken = 'abc';
             $requestMessage->headers['Authorization'] = 'Bearer ' . $accessToken;
         });
@@ -39,7 +39,7 @@ class DynamicsClientTest extends DynamicsTestCase
 
     public function testLeadRequest()
     {
-         $dynamicsClient = new DynamicsClient($this->instanceUrl.'/api/data/v8.2', function($requestMessage) {
+        $dynamicsClient = new DynamicsClient($this->instanceUrl . '/api/data/v8.2', function ($requestMessage) {
             $requestMessage->headers['Authorization'] = 'Bearer ' . $this->accessToken;
             // $this->log->info($this->accessToken);
         });
